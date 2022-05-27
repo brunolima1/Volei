@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Volei</string>
+    <string name="textview">Assistente de Volei</string>
 </resources>
