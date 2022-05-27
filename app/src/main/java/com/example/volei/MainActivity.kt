@@ -14,17 +14,19 @@ class MainActivity : AppCompatActivity() {
         val timeA : EditText = findViewById(R.id.timeA)
         val timeB : EditText = findViewById(R.id.timeB)
 
+
         buttonstart.setOnClickListener(){
-            val gotoScreen2 = Intent(applicationContext,Tela2Activity::class.java)
-            val nomeTimeA = timeA.text.toString()
-            val nomeTimeB = timeB.text.toString()
-            val params1= Bundle()
-            val params2= Bundle()
-            params1.putString("nA",nomeTimeA)
-            params2.putString("nB",nomeTimeB)
-            gotoScreen2.putExtras(params1)
-            gotoScreen2.putExtras(params2)
-            startActivity(gotoScreen2)
+                val gotoScreen2 = Intent(applicationContext, Tela2Activity::class.java)
+                val nomeTimeA = timeA.text.toString()
+                val nomeTimeB = timeB.text.toString()
+                val params1 = Bundle()
+                val params2 = Bundle()
+                params1.putString("nA", nomeTimeA)
+                params2.putString("nB", nomeTimeB)
+                gotoScreen2.putExtras(params1)
+                gotoScreen2.putExtras(params2)
+                startActivity(gotoScreen2)
+
 
 
         }

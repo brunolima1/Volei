@@ -12,16 +12,31 @@ class Tela2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela2)
         val backToprevious = Intent(applicationContext,MainActivity::class.java)
-        val backbutton : Button = findViewById(R.id.backtostart)
-        val t2timeA : TextView = findViewById(R.id.t2TimeA)
-        val t2timeB: TextView = findViewById(R.id.t2timeB)
-        val vPassadoTimA = intent.getStringExtra("nA")
-        val vPassadoTimB = intent.getStringExtra("nB")
+        var placarA : Int = 0;
+        var placarB : Int = 0;
+        var placarTextA: TextView = findViewById(R.id.placarA)
+        var placarTextB: TextView =findViewById(R.id.placarB)
+        var marcapontoA: Button = findViewById(R.id.pontoA)
+        var marcapontoB: Button = findViewById(R.id.pontoB)
+        var backbutton : Button = findViewById(R.id.backtostart)
+        var t2timeA : TextView = findViewById(R.id.t2TimeA)
+        var t2timeB: TextView = findViewById(R.id.t2timeB)
+        var vPassadoTimA = intent.getStringExtra("nA")
+        var vPassadoTimB = intent.getStringExtra("nB")
         t2timeA.text=vPassadoTimA.toString()
         t2timeB.text=vPassadoTimB.toString()
         backbutton.setOnClickListener(){
             startActivity(backToprevious)
         }
-
+        marcapontoA.setOnClickListener(){
+            placarA +=1
+            val placarAStr: String = placarA.toString()
+            placarTextA.text = placarAStr
+        }
+        marcapontoB.setOnClickListener(){
+            placarB +=1
+            val placarBStr: String = placarB.toString()
+            placarTextB.text =placarBStr
+        }
     }
 }
