@@ -11,8 +11,8 @@ class Tela2Activity : AppCompatActivity() {
         setContentView(R.layout.activity_tela2)
         val t2timeA : TextView = findViewById(R.id.t2TimeA)
         val t2timeB: TextView = findViewById(R.id.t2timeB)
-        val vPassadoTimA = intent.getStringArrayExtra("nA")
-        val vPassadoTimB = intent.getStringArrayExtra("nB")
+        val vPassadoTimA = intent.getStringExtra("nA")
+        val vPassadoTimB = intent.getStringExtra("nB")
         t2timeA.text= vPassadoTimA.toString()
         t2timeB.text=vPassadoTimB.toString()
     }
