@@ -1,5 +1,6 @@
 package com.example.volei
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -10,15 +11,16 @@ class Tela2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela2)
+        val backToprevious = Intent(applicationContext,MainActivity::class.java)
         val backbutton : Button = findViewById(R.id.backtostart)
         val t2timeA : TextView = findViewById(R.id.t2TimeA)
         val t2timeB: TextView = findViewById(R.id.t2timeB)
         val vPassadoTimA = intent.getStringExtra("nA")
         val vPassadoTimB = intent.getStringExtra("nB")
-        t2timeA.text= vPassadoTimA.toString()
+        t2timeA.text=vPassadoTimA.toString()
         t2timeB.text=vPassadoTimB.toString()
         backbutton.setOnClickListener(){
-            startActivity(intent)
+            startActivity(backToprevious)
         }
 
     }

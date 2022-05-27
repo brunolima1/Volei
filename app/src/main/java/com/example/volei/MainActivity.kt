@@ -1,12 +1,10 @@
 package com.example.volei
 
 import android.content.Intent
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,16 +15,16 @@ class MainActivity : AppCompatActivity() {
         val timeB : EditText = findViewById(R.id.timeB)
 
         buttonstart.setOnClickListener(){
-            val intent = Intent(applicationContext,Tela2Activity::class.java)
+            val gotoScreen2 = Intent(applicationContext,Tela2Activity::class.java)
             val nomeTimeA = timeA.text.toString()
             val nomeTimeB = timeB.text.toString()
             val params1= Bundle()
             val params2= Bundle()
             params1.putString("nA",nomeTimeA)
             params2.putString("nB",nomeTimeB)
-            intent.putExtras(params1)
-            intent.putExtras(params2)
-            startActivity(intent)
+            gotoScreen2.putExtras(params1)
+            gotoScreen2.putExtras(params2)
+            startActivity(gotoScreen2)
 
 
         }
