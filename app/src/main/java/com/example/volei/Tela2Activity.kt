@@ -1,12 +1,21 @@
 package com.example.volei
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import org.w3c.dom.Text
+import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+
+
+
 
 class Tela2Activity : AppCompatActivity() {
+
+    data class Student (
+        var name: String? = null,
+        var address: String? = null) {
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela2)
@@ -20,6 +29,7 @@ class Tela2Activity : AppCompatActivity() {
         backbutton.setOnClickListener(){
             startActivity(intent)
         }
-
+        
+        val student = Student("Alex", "Rome")
     }
 }
