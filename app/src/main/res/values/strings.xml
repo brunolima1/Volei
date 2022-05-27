@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Volei</string>
     <string name="textview">Assistente de Volei</string>
+    <string name="time_a">Time A</string>
+    <string name="time_b">Time B</string>
+    <string name="jogar">Jogar</string>
+    <string name="resultado_das_ultimas_5_partidas">Resultado das Ultimas 5 partidas</string>
 </resources>
