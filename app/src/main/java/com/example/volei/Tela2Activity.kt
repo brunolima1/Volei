@@ -19,18 +19,20 @@ class Tela2Activity : AppCompatActivity() {
     var setsA: Int = 0
     var setsB: Int = 0
 
-    var placarA : Int = 0;
-    var placarB : Int = 0;
+    var placarA : Int = 0
+    var placarB : Int = 0
 
-    private val placarTextA: TextView
-    private val placarTextB: TextView =findViewById(R.id.placarB)
+    private var placarTextA: TextView? = null
+    private var placarTextB: TextView? = null
+
+    private val backToprevious = Intent(applicationContext, MainActivity::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela2)
-        val backToprevious = Intent(applicationContext,MainActivity::class.java)
 
         placarTextA = findViewById(com.example.volei.R.id.placarA)
+        placarTextB = findViewById(com.example.volei.R.id.placarB)
         val marcapontoA: Button = findViewById(R.id.pontoA)
         val marcapontoB: Button = findViewById(R.id.pontoB)
         val backbutton : Button = findViewById(R.id.backtostart)
@@ -46,7 +48,7 @@ class Tela2Activity : AppCompatActivity() {
         }
         marcapontoA.setOnClickListener(){
             placarA +=1
-            placarTextA.text = placarA.toString()
+            placarTextA!!.text = placarA.toString()
 
             var result: Int = checkPlacar()
             if(result != 0){
@@ -55,7 +57,7 @@ class Tela2Activity : AppCompatActivity() {
         }
         marcapontoB.setOnClickListener(){
             placarB +=1
-            placarTextB.text =placarB.toString()
+            placarTextB!!.text =placarB.toString()
 
             var result: Int = checkPlacar()
             if(result != 0){
@@ -79,10 +81,10 @@ class Tela2Activity : AppCompatActivity() {
             endMatch(timeA, timeB, scoreA, scoreB)
         }
         placarA = 0
-        placarTextA.text = placarA.toString()
+        placarTextA!!.text = placarA.toString()
 
         placarB = 0
-        placarTextA.text = placarA.toString()
+        placarTextB!!.text = placarB.toString()
     }
 
     private fun endMatch(timeA: String, timeB: String, scoreA: Int, scoreB: Int){
@@ -90,6 +92,7 @@ class Tela2Activity : AppCompatActivity() {
         var partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
         partidas.partidas.add(partida)
         writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
+        startActivity(backToprevious)
     }
 
     private fun checkPlacar(): Int {
@@ -138,7 +141,7 @@ class Tela2Activity : AppCompatActivity() {
         return partidas
     }
 
-    fun fileExists(filePath: String): Boolean {
+    private fun fileExists(filePath: String): Boolean {
         val file = File(filePath)
         return file.exists() && !file.isDirectory
     }
