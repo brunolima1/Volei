@@ -25,11 +25,12 @@ class Tela2Activity : AppCompatActivity() {
     private var placarTextA: TextView? = null
     private var placarTextB: TextView? = null
 
-    private val backToprevious = Intent(applicationContext, MainActivity::class.java)
+    private var json: JSONHandler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela2)
+        val backToprevious = Intent(applicationContext, MainActivity::class.java)
 
         placarTextA = findViewById(com.example.volei.R.id.placarA)
         placarTextB = findViewById(com.example.volei.R.id.placarB)
@@ -64,8 +65,8 @@ class Tela2Activity : AppCompatActivity() {
                 endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
         }
-        if(!fileExists(cacheDir.absolutePath+"/PostJson.json")){
-            createJSONFile(cacheDir.absolutePath+"/PostJson.json")
+        if(!json!!.fileExists(cacheDir.absolutePath+"/PostJson.json")){
+            json!!.createJSONFile(cacheDir.absolutePath+"/PostJson.json")
         }
     }
 
@@ -88,11 +89,10 @@ class Tela2Activity : AppCompatActivity() {
     }
 
     private fun endMatch(timeA: String, timeB: String, scoreA: Int, scoreB: Int){
-        var partidas: Partidas = readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
+        var partidas: Partidas = json!!.readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
         var partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
         partidas.partidas.add(partida)
-        writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
-        startActivity(backToprevious)
+        json!!.writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
     }
 
     private fun checkPlacar(): Int {
@@ -103,46 +103,5 @@ class Tela2Activity : AppCompatActivity() {
             return 2
         }
         return 0;
-    }
-
-    private fun createJSONFile(s: String){
-        var gson = Gson()
-        var jsonString: String = gson.toJson(Partidas(mutableListOf()))
-        val file = File(s)
-        file.writeText(jsonString)
-    }
-
-    private fun writeJSONtoFile(s:String, matchs : Partidas) {
-        var gson = Gson()
-        var jsonString: String = gson.toJson(matchs)
-        val file = File(s)
-        file.writeText(jsonString)
-    }
-
-    private fun readJSONfromFile(f:String): Partidas {
-        var gson = Gson()
-
-        val bufferedReader: BufferedReader = File(f).bufferedReader()
-
-        val inputString = bufferedReader.use { it.readText() }
-
-        //Convert the Json File to Gson Object
-        var partidas: Partidas = gson.fromJson(inputString, Partidas::class.java)
-
-        /*
-        stringBuilder = StringBuilder("Detalhes da Partida\n---------------------")
-        +Log.d("Kotlin",partida.id.toString())
-        stringBuilder?.append("\nTime 1: " + partida.time1)
-        stringBuilder?.append("\nTime 2: " + partida.time2)
-        stringBuilder?.append("\nScore 1: " + partida.score1)
-        stringBuilder?.append("\nScore 2: " + partida.score2)
-         */
-
-        return partidas
-    }
-
-    private fun fileExists(filePath: String): Boolean {
-        val file = File(filePath)
-        return file.exists() && !file.isDirectory
     }
 }
