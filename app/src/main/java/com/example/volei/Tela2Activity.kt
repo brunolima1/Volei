@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.example.volei.model.Partida
+import com.example.volei.model.Partidas
 import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.File
@@ -15,15 +16,21 @@ import java.io.File
 class Tela2Activity : AppCompatActivity() {
 
     private var stringBuilder:StringBuilder?=null
+    var setsA: Int = 0
+    var setsB: Int = 0
+
+    var placarA : Int = 0;
+    var placarB : Int = 0;
+
+    private val placarTextA: TextView
+    private val placarTextB: TextView =findViewById(R.id.placarB)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela2)
         val backToprevious = Intent(applicationContext,MainActivity::class.java)
-        var placarA : Int = 0;
-        var placarB : Int = 0;
-        val placarTextA: TextView = findViewById(R.id.placarA)
-        val placarTextB: TextView =findViewById(R.id.placarB)
+
+        placarTextA = findViewById(com.example.volei.R.id.placarA)
         val marcapontoA: Button = findViewById(R.id.pontoA)
         val marcapontoB: Button = findViewById(R.id.pontoB)
         val backbutton : Button = findViewById(R.id.backtostart)
@@ -33,44 +40,83 @@ class Tela2Activity : AppCompatActivity() {
         val vPassadoTimB = intent.getStringExtra("nB")
         t2timeA.text=vPassadoTimA.toString()
         t2timeB.text=vPassadoTimB.toString()
+
         backbutton.setOnClickListener(){
             startActivity(backToprevious)
         }
         marcapontoA.setOnClickListener(){
             placarA +=1
-            val placarAStr: String = placarA.toString()
-            placarTextA.text = placarAStr
+            placarTextA.text = placarA.toString()
 
-            CheckPlacar(placarA, placarB)
+            var result: Int = checkPlacar()
+            if(result != 0){
+                endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
+            }
         }
         marcapontoB.setOnClickListener(){
             placarB +=1
-            val placarBStr: String = placarB.toString()
-            placarTextB.text =placarBStr
-        }
+            placarTextB.text =placarB.toString()
 
-        var partida = Partida(0, "Brasil", "Japão", 3, 2)
-        writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partida)
-        var details: String = readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
-
-    }
-
-    private fun CheckPlacar(placar1 : Int, placar2 : Int){
-        if(placar1 >= 25){
-            if((placar1 - placar2) >= 2){
-
+            var result: Int = checkPlacar()
+            if(result != 0){
+                endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
         }
+        if(!fileExists(cacheDir.absolutePath+"/PostJson.json")){
+            createJSONFile(cacheDir.absolutePath+"/PostJson.json")
+        }
     }
 
-    private fun writeJSONtoFile(s:String, match : Partida) {
+    private fun endSet(result: Int, timeA: String, timeB: String, scoreA: Int, scoreB: Int){
+        if(result == 1){
+            setsA += 1
+        }
+        else if(result == 2){
+            setsB += 1;
+        }
+
+        if(setsA == 3 || setsB == 3){
+            endMatch(timeA, timeB, scoreA, scoreB)
+        }
+        placarA = 0
+        placarTextA.text = placarA.toString()
+
+        placarB = 0
+        placarTextA.text = placarA.toString()
+    }
+
+    private fun endMatch(timeA: String, timeB: String, scoreA: Int, scoreB: Int){
+        var partidas: Partidas = readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
+        var partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
+        partidas.partidas.add(partida)
+        writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
+    }
+
+    private fun checkPlacar(): Int {
+        if(placarA >= 25 && (placarA - placarB) >= 2){
+            return 1
+        }
+        else if(placarB >= 25 && (placarB - placarA) >= 2){
+            return 2
+        }
+        return 0;
+    }
+
+    private fun createJSONFile(s: String){
         var gson = Gson()
-        var jsonString:String = gson.toJson(match)
-        val file= File(s)
+        var jsonString: String = gson.toJson(Partidas(mutableListOf()))
+        val file = File(s)
         file.writeText(jsonString)
     }
 
-    private fun readJSONfromFile(f:String): String {
+    private fun writeJSONtoFile(s:String, matchs : Partidas) {
+        var gson = Gson()
+        var jsonString: String = gson.toJson(matchs)
+        val file = File(s)
+        file.writeText(jsonString)
+    }
+
+    private fun readJSONfromFile(f:String): Partidas {
         var gson = Gson()
 
         val bufferedReader: BufferedReader = File(f).bufferedReader()
@@ -78,15 +124,22 @@ class Tela2Activity : AppCompatActivity() {
         val inputString = bufferedReader.use { it.readText() }
 
         //Convert the Json File to Gson Object
-        var partida = gson.fromJson(inputString, Partida::class.java)
-        //Initialize the String Builder
+        var partidas: Partidas = gson.fromJson(inputString, Partidas::class.java)
+
+        /*
         stringBuilder = StringBuilder("Detalhes da Partida\n---------------------")
         +Log.d("Kotlin",partida.id.toString())
         stringBuilder?.append("\nTime 1: " + partida.time1)
         stringBuilder?.append("\nTime 2: " + partida.time2)
         stringBuilder?.append("\nScore 1: " + partida.score1)
         stringBuilder?.append("\nScore 2: " + partida.score2)
+         */
 
-        return stringBuilder.toString()
+        return partidas
+    }
+
+    fun fileExists(filePath: String): Boolean {
+        val file = File(filePath)
+        return file.exists() && !file.isDirectory
     }
 }
