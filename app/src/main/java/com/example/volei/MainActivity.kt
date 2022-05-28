@@ -1,12 +1,19 @@
 package com.example.volei
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import com.example.volei.model.Partida
+import com.google.gson.Gson
+import java.io.BufferedReader
+import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,10 +33,7 @@ class MainActivity : AppCompatActivity() {
                 gotoScreen2.putExtras(params1)
                 gotoScreen2.putExtras(params2)
                 startActivity(gotoScreen2)
-
-
-
         }
-
     }
+
 }
