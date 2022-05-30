@@ -18,34 +18,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val buttonStart: Button = findViewById(R.id.startpartida)
-        val buttonResult: Button = findViewById(R.id.startpartida)
+        val buttonResult: Button = findViewById(R.id.result)
         val timeA : EditText = findViewById(R.id.timeA)
         val timeB : EditText = findViewById(R.id.timeB)
 
 
         buttonStart.setOnClickListener(){
-                val gotoScreen2 = Intent(applicationContext, Tela2Activity::class.java)
-                val nomeTimeA = timeA.text.toString()
-                val nomeTimeB = timeB.text.toString()
-                val params1 = Bundle()
-                val params2 = Bundle()
-                params1.putString("nA", nomeTimeA)
-                params2.putString("nB", nomeTimeB)
-                gotoScreen2.putExtras(params1)
-                gotoScreen2.putExtras(params2)
-                startActivity(gotoScreen2)
+            val gotoScreen2 = Intent(applicationContext, Tela2Activity::class.java)
+            val nomeTimeA = timeA.text.toString()
+            val nomeTimeB = timeB.text.toString()
+            val params1 = Bundle()
+            val params2 = Bundle()
+            params1.putString("nA", nomeTimeA)
+            params2.putString("nB", nomeTimeB)
+            gotoScreen2.putExtras(params1)
+            gotoScreen2.putExtras(params2)
+            startActivity(gotoScreen2)
         }
         buttonResult.setOnClickListener(){
-                val gotoScreen2 = Intent(applicationContext, Tela2Activity::class.java)
-                val nomeTimeA = timeA.text.toString()
-                val nomeTimeB = timeB.text.toString()
-                val params1 = Bundle()
-                val params2 = Bundle()
-                params1.putString("nA", nomeTimeA)
-                params2.putString("nB", nomeTimeB)
-                gotoScreen2.putExtras(params1)
-                gotoScreen2.putExtras(params2)
-                startActivity(gotoScreen2)
+            val goToMatches = Intent(applicationContext, MatchesActivity::class.java)
+
+            startActivity(goToMatches)
         }
     }
 

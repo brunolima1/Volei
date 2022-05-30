@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Volei">
         <activity
+            android:name=".MatchesActivity"
+            android:exported="false" />
+        <activity
             android:name=".Tela2Activity"
             android:exported="false" />
         <activity

@@ -44,6 +44,8 @@ class Tela2Activity : AppCompatActivity() {
         t2timeA.text=vPassadoTimA.toString()
         t2timeB.text=vPassadoTimB.toString()
 
+        json = JSONHandler()
+
         backbutton.setOnClickListener(){
             startActivity(backToprevious)
         }
@@ -93,6 +95,7 @@ class Tela2Activity : AppCompatActivity() {
         var partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
         partidas.partidas.add(partida)
         json!!.writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
+        startActivity(Intent(applicationContext, MainActivity::class.java))
     }
 
     private fun checkPlacar(): Int {
