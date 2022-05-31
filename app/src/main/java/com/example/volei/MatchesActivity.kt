@@ -29,11 +29,13 @@ class MatchesActivity : AppCompatActivity() {
             val goToMain = Intent(applicationContext, MainActivity::class.java)
             startActivity(goToMain)
         }
-        setAdapter()
+        for (i in 5 downTo 0 step 1) {
+            setAdapter()
+        }
     }
 
     private fun setAdapter(){
-        val adapter = recyclerAdapter(matches!!)
+        val adapter = RecyclerAdapter(matches!!)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(applicationContext)
         recyclerView!!.layoutManager = layoutManager
         recyclerView!!.itemAnimator = DefaultItemAnimator()

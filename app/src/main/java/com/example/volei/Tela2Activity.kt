@@ -3,14 +3,10 @@ package com.example.volei
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.example.volei.model.Partida
 import com.example.volei.model.Partidas
-import com.google.gson.Gson
-import java.io.BufferedReader
-import java.io.File
 
 
 class Tela2Activity : AppCompatActivity() {
@@ -91,7 +87,7 @@ class Tela2Activity : AppCompatActivity() {
         }
 
         if(setsA == 3 || setsB == 3){
-            endMatch(timeA, timeB, scoreA, scoreB)
+            endMatch(timeA, timeB, setsA, setsB)
         }
         placarA = 0
         placarTextA!!.text = "0" + placarA.toString()
