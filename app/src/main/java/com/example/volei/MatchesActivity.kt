@@ -33,7 +33,7 @@ class MatchesActivity : AppCompatActivity() {
     }
 
     private fun setAdapter(){
-        val adapter = recyclerAdapter(matches!!)
+        val adapter = RecyclerAdapter(matches!!)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(applicationContext)
         recyclerView!!.layoutManager = layoutManager
         recyclerView!!.itemAnimator = DefaultItemAnimator()

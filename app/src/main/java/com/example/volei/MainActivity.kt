@@ -1,26 +1,21 @@
 package com.example.volei
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.volei.model.Partida
 import com.example.volei.model.Partidas
-import com.google.gson.Gson
-import java.io.BufferedReader
-import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
 
-    private var stringBuilder:StringBuilder?=null
-    var setsA: Int = 0
-    var setsB: Int = 0
+    private var setsA: Int = 0
+    private var setsB: Int = 0
 
-    var placarA : Int = 0
-    var placarB : Int = 0
+    private var placarA : Int = 0
+    private var placarB : Int = 0
 
     private var placarTextA: TextView? = null
     private var placarTextB: TextView? = null
@@ -34,11 +29,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        placarTextA = findViewById(com.example.volei.R.id.teamApoints)
-        placarTextB = findViewById(com.example.volei.R.id.teamBpoints)
-        setsTextA = findViewById(com.example.volei.R.id.setTeamA)
-        setsTextB = findViewById(com.example.volei.R.id.setTeamB)
-        setsGeral = findViewById(com.example.volei.R.id.setCounter)
+        placarTextA = findViewById(R.id.teamApoints)
+        placarTextB = findViewById(R.id.teamBpoints)
+        setsTextA = findViewById(R.id.setTeamA)
+        setsTextB = findViewById(R.id.setTeamB)
+        setsGeral = findViewById(R.id.setCounter)
         val t2timeA : TextView = findViewById(R.id.teamAname)
         val t2timeB: TextView = findViewById(R.id.teamBname)
 
@@ -46,12 +41,12 @@ class MainActivity : AppCompatActivity() {
 
         json = JSONHandler()
 
-        setsGeral!!.text = " ${0}";
+        setsGeral!!.text = " ${0}"
 
-        historyButton.setOnClickListener(){
+        historyButton.setOnClickListener {
             startActivity(Intent(applicationContext, MatchesActivity::class.java))
         }
-        placarTextA!!.setOnClickListener(){
+        placarTextA!!.setOnClickListener {
             placarA +=1
             if(placarA < 10){
                 placarTextA!!.text = "0$placarA"
@@ -60,12 +55,12 @@ class MainActivity : AppCompatActivity() {
                 placarTextA!!.text = placarA.toString()
             }
 
-            var result: Int = checkPlacar()
+            val result: Int = checkPlacar()
             if(result != 0){
                 endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
         }
-        placarTextB!!.setOnClickListener(){
+        placarTextB!!.setOnClickListener {
             placarB +=1
             if(placarB < 10){
                 placarTextB!!.text = "0$placarB"
@@ -74,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 placarTextB!!.text = placarB.toString()
             }
 
-            var result: Int = checkPlacar()
+            val result: Int = checkPlacar()
             if(result != 0){
                 endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
@@ -90,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             setsTextA!!.text = setsA.toString()
         }
         else if(result == 2){
-            setsB += 1;
+            setsB += 1
             setsTextB!!.text = setsB.toString()
         }
 
@@ -103,12 +98,12 @@ class MainActivity : AppCompatActivity() {
         placarB = 0
         placarTextB!!.text = "0$placarB"
 
-        setsGeral!!.text = " " + (setsA + setsB + 1).toString();
+        setsGeral!!.text = " " + (setsA + setsB + 1).toString()
     }
 
     private fun endMatch(timeA: String, timeB: String, scoreA: Int, scoreB: Int){
-        var partidas: Partidas = json!!.readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
-        var partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
+        val partidas: Partidas = json!!.readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
+        val partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
         partidas.partidas.add(partida)
         json!!.writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
         startActivity(Intent(applicationContext, MainActivity::class.java))
@@ -121,6 +116,6 @@ class MainActivity : AppCompatActivity() {
         else if(placarB >= 25 && (placarB - placarA) >= 2){
             return 2
         }
-        return 0;
+        return 0
     }
 }
