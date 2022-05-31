@@ -32,35 +32,45 @@ class Tela2Activity : AppCompatActivity() {
         setContentView(R.layout.activity_tela2)
         val backToprevious = Intent(applicationContext, MainActivity::class.java)
 
-        placarTextA = findViewById(com.example.volei.R.id.placarA)
-        placarTextB = findViewById(com.example.volei.R.id.placarB)
-        val marcapontoA: Button = findViewById(R.id.pontoA)
-        val marcapontoB: Button = findViewById(R.id.pontoB)
-        val backbutton : Button = findViewById(R.id.backtostart)
-        val t2timeA : TextView = findViewById(R.id.t2TimeA)
-        val t2timeB: TextView = findViewById(R.id.t2timeB)
-        val vPassadoTimA = intent.getStringExtra("nA")
-        val vPassadoTimB = intent.getStringExtra("nB")
-        t2timeA.text=vPassadoTimA.toString()
-        t2timeB.text=vPassadoTimB.toString()
+        placarTextA = findViewById(com.example.volei.R.id.teamApoints)
+        placarTextB = findViewById(com.example.volei.R.id.teamBpoints)
+        //val marcapontoA: Button = findViewById(R.id.pontoA)
+        //val marcapontoB: Button = findViewById(R.id.pontoB)
+        //val backbutton : Button = findViewById(R.id.backtostart)
+        val t2timeA : TextView = findViewById(R.id.teamAname)
+        val t2timeB: TextView = findViewById(R.id.teamBname)
+        //val vPassadoTimA = intent.getStringExtra("nA")
+        //val vPassadoTimB = intent.getStringExtra("nB")
+        //t2timeA.text = vPassadoTimA.toString()
+        //t2timeB.text = vPassadoTimB.toString()
 
         json = JSONHandler()
 
-        backbutton.setOnClickListener(){
-            startActivity(backToprevious)
-        }
-        marcapontoA.setOnClickListener(){
+        //backbutton.setOnClickListener(){
+        //    startActivity(backToprevious)
+        //}
+        placarTextA!!.setOnClickListener(){
             placarA +=1
-            placarTextA!!.text = placarA.toString()
+            if(placarA < 10){
+                placarTextA!!.text = "0$placarA"
+            }
+            else{
+                placarTextA!!.text = placarA.toString()
+            }
 
             var result: Int = checkPlacar()
             if(result != 0){
                 endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
         }
-        marcapontoB.setOnClickListener(){
+        placarTextB!!.setOnClickListener(){
             placarB +=1
-            placarTextB!!.text =placarB.toString()
+            if(placarB < 10){
+                placarTextB!!.text = "0$placarB"
+            }
+            else{
+                placarTextB!!.text = placarB.toString()
+            }
 
             var result: Int = checkPlacar()
             if(result != 0){
@@ -84,10 +94,10 @@ class Tela2Activity : AppCompatActivity() {
             endMatch(timeA, timeB, scoreA, scoreB)
         }
         placarA = 0
-        placarTextA!!.text = placarA.toString()
+        placarTextA!!.text = "0$placarA"
 
         placarB = 0
-        placarTextB!!.text = placarB.toString()
+        placarTextB!!.text = "0$placarB"
     }
 
     private fun endMatch(timeA: String, timeB: String, scoreA: Int, scoreB: Int){
