@@ -3,19 +3,37 @@ package com.example.volei
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import org.w3c.dom.Text
+import com.example.volei.model.Partida
+import com.example.volei.model.Partidas
+import com.google.gson.Gson
+import java.io.BufferedReader
+import java.io.File
+
 
 class Tela2Activity : AppCompatActivity() {
+
+    private var stringBuilder:StringBuilder?=null
+    var setsA: Int = 0
+    var setsB: Int = 0
+
+    var placarA : Int = 0
+    var placarB : Int = 0
+
+    private var placarTextA: TextView? = null
+    private var placarTextB: TextView? = null
+
+    private var json: JSONHandler? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela2)
-        val backToprevious = Intent(applicationContext,MainActivity::class.java)
-        var placarA : Int = 0;
-        var placarB : Int = 0;
-        val placarTextA: TextView = findViewById(R.id.placarA)
-        val placarTextB: TextView =findViewById(R.id.placarB)
+        val backToprevious = Intent(applicationContext, MainActivity::class.java)
+
+        placarTextA = findViewById(com.example.volei.R.id.placarA)
+        placarTextB = findViewById(com.example.volei.R.id.placarB)
         val marcapontoA: Button = findViewById(R.id.pontoA)
         val marcapontoB: Button = findViewById(R.id.pontoB)
         val backbutton : Button = findViewById(R.id.backtostart)
@@ -25,18 +43,68 @@ class Tela2Activity : AppCompatActivity() {
         val vPassadoTimB = intent.getStringExtra("nB")
         t2timeA.text=vPassadoTimA.toString()
         t2timeB.text=vPassadoTimB.toString()
+
+        json = JSONHandler()
+
         backbutton.setOnClickListener(){
             startActivity(backToprevious)
         }
         marcapontoA.setOnClickListener(){
             placarA +=1
-            val placarAStr: String = placarA.toString()
-            placarTextA.text = placarAStr
+            placarTextA!!.text = placarA.toString()
+
+            var result: Int = checkPlacar()
+            if(result != 0){
+                endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
+            }
         }
         marcapontoB.setOnClickListener(){
             placarB +=1
-            val placarBStr: String = placarB.toString()
-            placarTextB.text =placarBStr
+            placarTextB!!.text =placarB.toString()
+
+            var result: Int = checkPlacar()
+            if(result != 0){
+                endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
+            }
         }
+        if(!json!!.fileExists(cacheDir.absolutePath+"/PostJson.json")){
+            json!!.createJSONFile(cacheDir.absolutePath+"/PostJson.json")
+        }
+    }
+
+    private fun endSet(result: Int, timeA: String, timeB: String, scoreA: Int, scoreB: Int){
+        if(result == 1){
+            setsA += 1
+        }
+        else if(result == 2){
+            setsB += 1;
+        }
+
+        if(setsA == 3 || setsB == 3){
+            endMatch(timeA, timeB, scoreA, scoreB)
+        }
+        placarA = 0
+        placarTextA!!.text = placarA.toString()
+
+        placarB = 0
+        placarTextB!!.text = placarB.toString()
+    }
+
+    private fun endMatch(timeA: String, timeB: String, scoreA: Int, scoreB: Int){
+        var partidas: Partidas = json!!.readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
+        var partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
+        partidas.partidas.add(partida)
+        json!!.writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
+        startActivity(Intent(applicationContext, MainActivity::class.java))
+    }
+
+    private fun checkPlacar(): Int {
+        if(placarA >= 25 && (placarA - placarB) >= 2){
+            return 1
+        }
+        else if(placarB >= 25 && (placarB - placarA) >= 2){
+            return 2
+        }
+        return 0;
     }
 }
