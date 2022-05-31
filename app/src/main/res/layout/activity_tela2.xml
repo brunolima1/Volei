@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8F2EC"
     tools:context=".Tela2Activity">
 
     <LinearLayout
@@ -147,15 +148,169 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/teamBpoints"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NomeTimeA" />
 
-    <Button
-        android:id="@+id/button8"
+        <TextView
+            android:id="@+id/editTextTextPersonName6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="Set"
+            android:textAlignment="textEnd"
+            android:textColor="#473FB5"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/editTextTextPersonName5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="  X"
+            android:textColor="#473FB5"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/teamApoints"
+        android:layout_width="171dp"
+        android:layout_height="166dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="10dp"
+        android:text="00"
+        android:textColor="#FFB700"
+        android:textSize="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Defazer Score"
+        android:layout_marginStart="166dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="167dp"
+        android:layout_marginBottom="20dp"
+        android:text="TIME A"
+        android:textColor="#FFB700"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamApoints" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="81dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="60dp"
+        android:text="00"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/teamApoints"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/teamApoints" />
+
+    <TextView
+        android:id="@+id/setsTeamALabel"
+        android:layout_width="80dp"
+        android:layout_height="23dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="8dp"
+        android:text="SETS"
+        android:textColor="#473FB5"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/teamApoints" />
+
+    <TextView
+        android:id="@+id/teamBpoints"
+        android:layout_width="0dp"
+        android:layout_height="166dp"
+        android:layout_marginStart="100dp"
+        android:text="00"
+        android:textColor="#00BCD4"
+        android:textSize="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="81dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="60dp"
+        android:text="00"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/teamBpoints"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/teamBpoints" />
+
+    <TextView
+        android:id="@+id/setsTeamBLabel"
+        android:layout_width="80dp"
+        android:layout_height="23dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="8dp"
+        android:text="SETS"
+        android:textColor="#473FB5"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/teamBpoints" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="166dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="167dp"
+        android:text="TIME B"
+        android:textColor="#00BCD4"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/teamBpoints"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="137dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="138dp"
+        android:backgroundTint="#473FB5"
+        android:text="INICIAR JOGO"
+        app:layout_constraintBottom_toTopOf="@+id/textView15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamBpoints" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="5dp"
+        android:text="Cronômetro: "
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#473FB5"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -164,11 +319,11 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/placarA"
-        android:layout_width="114dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="167dp"
+        android:layout_marginBottom="5dp"
         android:text="0"
         android:textAlignment="center"
         android:textAllCaps="false"
@@ -190,7 +345,7 @@
         android:text="0"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/t2timeB" />
+        app:layout_constraintStart_toEndOf="@+id/textView15" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
