@@ -1,5 +1,6 @@
 package com.example.volei
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class recyclerAdapter : RecyclerView.Adapter<recyclerAdapter.MyViewHolder> {
     override fun onBindViewHolder(holder: recyclerAdapter.MyViewHolder, position: Int) {
         var name: String = list!![position].time1
         holder.nameTxt!!.text = name
+        Log.d("Debug", name)
     }
 
     override fun getItemCount(): Int {
