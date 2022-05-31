@@ -15,11 +15,17 @@ class recyclerAdapter : RecyclerView.Adapter<recyclerAdapter.MyViewHolder> {
         this.list = _list
     }
 
-    class MyViewHolder : RecyclerView.ViewHolder {
-        var nameTxt : TextView? = null
+    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var name1 : TextView? = null
+        var name2 : TextView? = null
+        var set1 : TextView? = null
+        var set2 : TextView? = null
 
-        constructor(view : View) : super(view) {
-            nameTxt = view.findViewById(R.id.time1)
+        init {
+            name1 = view.findViewById(R.id.time1)
+            name2 = view.findViewById(R.id.time2)
+            set1 = view.findViewById(R.id.set1)
+            set2 = view.findViewById(R.id.set2)
         }
     }
 
@@ -32,9 +38,10 @@ class recyclerAdapter : RecyclerView.Adapter<recyclerAdapter.MyViewHolder> {
     }
 
     override fun onBindViewHolder(holder: recyclerAdapter.MyViewHolder, position: Int) {
-        var name: String = list!![position].time1
-        holder.nameTxt!!.text = name
-        Log.d("Debug", name)
+        holder.name1!!.text = list!![position].time1
+        holder.name2!!.text = list!![position].time2
+        holder.set1!!.text = list!![position].score1.toString()
+        holder.set2!!.text = list!![position].score2.toString()
     }
 
     override fun getItemCount(): Int {
