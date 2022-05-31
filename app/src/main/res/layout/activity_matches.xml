@@ -8,9 +8,14 @@
 
     <Button
         android:id="@+id/backToMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/voltar"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#473FB5"
+        app:icon="@drawable/return__1_"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="30dp"
+        app:cornerRadius="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
