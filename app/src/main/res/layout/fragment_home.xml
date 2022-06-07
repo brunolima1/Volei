@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F2EC"
+    tools:context=".ui.home.HomeFragment">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="195dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/editTextTextPersonName6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:text="Set"
+                android:textAlignment="textEnd"
+                android:textColor="#473FB5"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/setCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:text="  X"
+                android:textColor="#473FB5"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/teamApoints"
+            android:layout_width="171dp"
+            android:layout_height="166dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"
+            android:text="00"
+            android:textColor="#FFB700"
+            android:textSize="150dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <EditText
+            android:id="@+id/teamAname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="166dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="167dp"
+            android:layout_marginBottom="20dp"
+            android:hint="TIME A"
+            android:textColor="#FFB700"
+            android:textColorHint="#FFB700"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/teamBname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/teamApoints" />
+
+        <TextView
+            android:id="@+id/setTeamA"
+            android:layout_width="81dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="60dp"
+            android:text="00"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/teamApoints"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/teamApoints" />
+
+        <TextView
+            android:id="@+id/setsTeamALabel"
+            android:layout_width="80dp"
+            android:layout_height="23dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="8dp"
+            android:text="SETS"
+            android:textColor="#473FB5"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/setTeamA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/teamApoints" />
+
+        <TextView
+            android:id="@+id/teamBpoints"
+            android:layout_width="0dp"
+            android:layout_height="166dp"
+            android:layout_marginStart="100dp"
+            android:text="00"
+            android:textColor="#00BCD4"
+            android:textSize="150dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/teamBname" />
+
+        <TextView
+            android:id="@+id/setTeamB"
+            android:layout_width="81dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="60dp"
+            android:text="00"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/teamBpoints"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/teamBpoints" />
+
+        <TextView
+            android:id="@+id/setsTeamBLabel"
+            android:layout_width="80dp"
+            android:layout_height="23dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="8dp"
+            android:text="SETS"
+            android:textColor="#473FB5"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/setTeamB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/teamBpoints" />
+
+        <EditText
+            android:id="@+id/teamBname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="166dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="167dp"
+            android:hint="TIME B"
+            android:textColor="#00BCD4"
+            android:textColorHint="#00BCD4"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/teamBpoints"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/teamAname" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="137dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="138dp"
+            android:backgroundTint="#473FB5"
+            android:text="INICIAR JOGO"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/teamBpoints" />
+
+        <Button
+            android:id="@+id/undo"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#473FB5"
+            android:hint="undo"
+            app:cornerRadius="30dp"
+            app:icon="@drawable/return__1_"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/history"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+        <Button
+            android:id="@+id/history"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#473FB5"
+            android:hint="history"
+            app:cornerRadius="30dp"
+            app:icon="@drawable/file"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/undo"
+            app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
