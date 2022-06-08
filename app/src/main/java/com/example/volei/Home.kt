@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.volei.databinding.ActivityHomeBinding
 import com.example.volei.model.Partida
 import com.example.volei.model.Partidas
+import com.example.volei.model.Pontuacao
 
 class Home : AppCompatActivity() {
 
@@ -43,6 +44,7 @@ class Home : AppCompatActivity() {
     private var setsGeral: TextView? = null
 
     private var json: JSONHandler? = null
+    private val historicoPlacar = MutableList(1) { Pontuacao(placarA, placarB, setsA, setsB) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,10 +106,17 @@ class Home : AppCompatActivity() {
 //            startActivity(Intent(applicationContext, Home::class.java))
         }
 
-        undo!!.setOnClickListener{
-            meter.stop();
-            this.finish()
-            startActivity(Intent(applicationContext, Home::class.java))
+        undo!!.setOnClickListener {
+            val lastIndex: Int = historicoPlacar.lastIndex
+            if(lastIndex > 0) {
+                historicoPlacar.removeAt(lastIndex)
+                val previousScore: Pontuacao = historicoPlacar[lastIndex - 1]
+                placarA = previousScore.score1
+                placarB = previousScore.score2
+                setsA = previousScore.sets1
+                setsB = previousScore.sets2
+                updateTexts()
+            }
         }
 
         placarTextA!!.setOnClickListener {
@@ -123,6 +132,7 @@ class Home : AppCompatActivity() {
             if(result != 0){
                 endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
+            addPoint()
         }
         placarTextB!!.setOnClickListener {
             placarB +=1
@@ -137,11 +147,11 @@ class Home : AppCompatActivity() {
             if(result != 0){
                 endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
+            addPoint()
         }
         if(!json!!.fileExists(cacheDir.absolutePath+"/PostJson.json")){
             json!!.createJSONFile(cacheDir.absolutePath+"/PostJson.json")
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -195,4 +205,28 @@ class Home : AppCompatActivity() {
         return 0
     }
 
+    private fun addPoint() {
+        if(historicoPlacar.size >= 10) {
+            historicoPlacar.removeAt(0)
+        }
+        historicoPlacar.add(Pontuacao(placarA, placarB, setsA, setsB))
+    }
+
+    private fun updateTexts() {
+        if(placarA < 10){
+            placarTextA!!.text = "0$placarA"
+        }
+        else{
+            placarTextA!!.text = placarA.toString()
+        }
+        if(placarB < 10){
+            placarTextB!!.text = "0$placarB"
+        }
+        else{
+            placarTextB!!.text = placarB.toString()
+        }
+        setsTextA!!.text = setsA.toString()
+        setsTextB!!.text = setsB.toString()
+        setsGeral!!.text = " " + (setsA + setsB + 1).toString()
+    }
 }

@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         setsGeral = findViewById(R.id.setCounter)
         val t2timeA : TextView = findViewById(R.id.teamAname)
         val t2timeB: TextView = findViewById(R.id.teamBname)
-
         val historyButton: Button = findViewById(R.id.history)
 
         json = JSONHandler()
