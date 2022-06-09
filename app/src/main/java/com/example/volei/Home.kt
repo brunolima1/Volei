@@ -86,6 +86,7 @@ class Home : AppCompatActivity() {
 
         play!!.isEnabled = true
         pause!!.isEnabled = false
+        undo!!.isEnabled = false
 
         //settings!!.setOnClickListener {
         //    startActivity(Intent(applicationContext, Home::class.java))
@@ -113,6 +114,8 @@ class Home : AppCompatActivity() {
                 setsA = previousScore.sets1
                 setsB = previousScore.sets2
                 updateTexts()
+                if(historicoPlacar.size == 1)
+                undo!!.isEnabled = false
             }
         }
 
@@ -208,6 +211,7 @@ class Home : AppCompatActivity() {
             historicoPlacar.removeAt(0)
         }
         historicoPlacar.add(Pontuacao(placarA, placarB, setsA, setsB))
+        undo!!.isEnabled = true
     }
 
     @SuppressLint("SetTextI18n")
