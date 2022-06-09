@@ -1,13 +1,12 @@
 package com.example.volei
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -30,7 +29,6 @@ class Home : AppCompatActivity() {
     private var pause: Button? = null
     private var undo: Button? = null
 
-
     private var setsA: Int = 0
     private var setsB: Int = 0
 
@@ -46,6 +44,7 @@ class Home : AppCompatActivity() {
     private var json: JSONHandler? = null
     private val historicoPlacar = MutableList(1) { Pontuacao(placarA, placarB, setsA, setsB) }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,6 +66,7 @@ class Home : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        //settings = findViewById(R.id.action_settings)
         play = findViewById(R.id.play)
         pause = findViewById(R.id.pause)
         undo = findViewById(R.id.undo)
@@ -84,26 +84,23 @@ class Home : AppCompatActivity() {
 
         setsGeral!!.text = " 1"
 
-//        historyButton.setOnClickListener {
-//            startActivity(Intent(applicationContext, MatchesActivity::class.java))
-//        }
+        play!!.isEnabled = true
+        pause!!.isEnabled = false
 
-        play!!.isEnabled = true;
-        pause!!.isEnabled = false;
-
+        //settings!!.setOnClickListener {
+        //    startActivity(Intent(applicationContext, Home::class.java))
+        //}
 
         play!!.setOnClickListener{
             meter.start()
-            play!!.isEnabled = false;
-            pause!!.isEnabled = true;
-//            startActivity(Intent(applicationContext, Home::class.java))
+            play!!.isEnabled = false
+            pause!!.isEnabled = true
         }
 
         pause!!.setOnClickListener{
             meter.stop()
-            pause!!.isEnabled = false;
-            play!!.isEnabled = true;
-//            startActivity(Intent(applicationContext, Home::class.java))
+            pause!!.isEnabled = false
+            play!!.isEnabled = true
         }
 
         undo!!.setOnClickListener {
@@ -165,6 +162,7 @@ class Home : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun endSet(result: Int, timeA: String, timeB: String, scoreA: Int, scoreB: Int){
         if(result == 1){
             setsA += 1
@@ -212,6 +210,7 @@ class Home : AppCompatActivity() {
         historicoPlacar.add(Pontuacao(placarA, placarB, setsA, setsB))
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateTexts() {
         if(placarA < 10){
             placarTextA!!.text = "0$placarA"

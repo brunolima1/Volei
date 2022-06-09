@@ -27,7 +27,7 @@
                     android:text="Set"
                     android:textAlignment="textEnd"
                     android:textColor="#FF003B83"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -38,7 +38,7 @@
                     android:ems="10"
                     android:text="  X"
                     android:textColor="#FF003B83"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:textStyle="bold" />
         </LinearLayout>
 
@@ -63,7 +63,7 @@
             android:text="00"
             android:textAlignment="textEnd"
             android:textColor="#ED254E"
-            android:textSize="120dp"
+            android:textSize="120sp"
             app:layout_constraintEnd_toStartOf="@+id/teamBpoints"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
             android:text="00"
             android:textAlignment="textStart"
             android:textColor="#FF7700"
-            android:textSize="120dp"
+            android:textSize="120sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/teamAname" />
 
@@ -205,6 +205,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:backgroundTint="#FF003B83"
+            android:hint="Resume"
             app:cornerRadius="45dp"
             app:icon="@drawable/ic_baseline_play_arrow_24"
             app:iconGravity="textStart"
@@ -222,6 +223,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:backgroundTint="#FF003B83"
+            android:hint="pause"
             android:textCursorDrawable="@android:drawable/ic_media_pause"
             app:cornerRadius="45dp"
             app:icon="@android:drawable/ic_media_pause"
