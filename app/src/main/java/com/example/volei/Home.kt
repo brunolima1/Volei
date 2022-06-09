@@ -1,13 +1,12 @@
 package com.example.volei
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.volei.databinding.ActivityHomeBinding
 import com.example.volei.model.Partida
 import com.example.volei.model.Partidas
+import com.example.volei.model.Pontuacao
 
 class Home : AppCompatActivity() {
 
@@ -28,7 +28,6 @@ class Home : AppCompatActivity() {
     private var play: Button? = null
     private var pause: Button? = null
     private var undo: Button? = null
-
 
     private var setsA: Int = 0
     private var setsB: Int = 0
@@ -43,7 +42,9 @@ class Home : AppCompatActivity() {
     private var setsGeral: TextView? = null
 
     private var json: JSONHandler? = null
+    private val historicoPlacar = MutableList(1) { Pontuacao(placarA, placarB, setsA, setsB) }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -65,6 +66,7 @@ class Home : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        //settings = findViewById(R.id.action_settings)
         play = findViewById(R.id.play)
         pause = findViewById(R.id.pause)
         undo = findViewById(R.id.undo)
@@ -82,32 +84,39 @@ class Home : AppCompatActivity() {
 
         setsGeral!!.text = " 1"
 
-//        historyButton.setOnClickListener {
-//            startActivity(Intent(applicationContext, MatchesActivity::class.java))
-//        }
+        play!!.isEnabled = true
+        pause!!.isEnabled = false
+        undo!!.isEnabled = false
 
-        play!!.isEnabled = true;
-        pause!!.isEnabled = false;
-
+        //settings!!.setOnClickListener {
+        //    startActivity(Intent(applicationContext, Home::class.java))
+        //}
 
         play!!.setOnClickListener{
             meter.start()
-            play!!.isEnabled = false;
-            pause!!.isEnabled = true;
-//            startActivity(Intent(applicationContext, Home::class.java))
+            play!!.isEnabled = false
+            pause!!.isEnabled = true
         }
 
         pause!!.setOnClickListener{
             meter.stop()
-            pause!!.isEnabled = false;
-            play!!.isEnabled = true;
-//            startActivity(Intent(applicationContext, Home::class.java))
+            pause!!.isEnabled = false
+            play!!.isEnabled = true
         }
 
-        undo!!.setOnClickListener{
-            meter.stop();
-            this.finish()
-            startActivity(Intent(applicationContext, Home::class.java))
+        undo!!.setOnClickListener {
+            val lastIndex: Int = historicoPlacar.lastIndex
+            if(lastIndex > 0) {
+                historicoPlacar.removeAt(lastIndex)
+                val previousScore: Pontuacao = historicoPlacar[lastIndex - 1]
+                placarA = previousScore.score1
+                placarB = previousScore.score2
+                setsA = previousScore.sets1
+                setsB = previousScore.sets2
+                updateTexts()
+                if(historicoPlacar.size == 1)
+                undo!!.isEnabled = false
+            }
         }
 
         placarTextA!!.setOnClickListener {
@@ -123,6 +132,7 @@ class Home : AppCompatActivity() {
             if(result != 0){
                 endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
+            addPoint()
         }
         placarTextB!!.setOnClickListener {
             placarB +=1
@@ -137,11 +147,11 @@ class Home : AppCompatActivity() {
             if(result != 0){
                 endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
             }
+            addPoint()
         }
         if(!json!!.fileExists(cacheDir.absolutePath+"/PostJson.json")){
             json!!.createJSONFile(cacheDir.absolutePath+"/PostJson.json")
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -155,6 +165,7 @@ class Home : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun endSet(result: Int, timeA: String, timeB: String, scoreA: Int, scoreB: Int){
         if(result == 1){
             setsA += 1
@@ -195,4 +206,30 @@ class Home : AppCompatActivity() {
         return 0
     }
 
+    private fun addPoint() {
+        if(historicoPlacar.size >= 10) {
+            historicoPlacar.removeAt(0)
+        }
+        historicoPlacar.add(Pontuacao(placarA, placarB, setsA, setsB))
+        undo!!.isEnabled = true
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateTexts() {
+        if(placarA < 10){
+            placarTextA!!.text = "0$placarA"
+        }
+        else{
+            placarTextA!!.text = placarA.toString()
+        }
+        if(placarB < 10){
+            placarTextB!!.text = "0$placarB"
+        }
+        else{
+            placarTextB!!.text = placarB.toString()
+        }
+        setsTextA!!.text = setsA.toString()
+        setsTextB!!.text = setsB.toString()
+        setsGeral!!.text = " " + (setsA + setsB + 1).toString()
+    }
 }

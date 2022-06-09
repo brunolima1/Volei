@@ -1,5 +1,6 @@
 package com.example.volei
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private var json: JSONHandler? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         setsGeral = findViewById(R.id.setCounter)
         val t2timeA : TextView = findViewById(R.id.teamAname)
         val t2timeB: TextView = findViewById(R.id.teamBname)
-
         val historyButton: Button = findViewById(R.id.history)
 
         json = JSONHandler()
