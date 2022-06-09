@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/
+../.idea/deploymentTargetDropDown.xml
+../.idea/misc.xml
+src/main/ic_launcher-playstore.png
+../hs_err_pid17464.log
+../replay_pid17464.log
