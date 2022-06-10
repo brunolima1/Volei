@@ -18,17 +18,10 @@ class MatchesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matches)
 
-        val buttonBack: Button = findViewById(R.id.backToMain)
         recyclerView = findViewById(R.id.List)
         val json = JSONHandler()
         matches = json.readJSONfromFile(cacheDir.absolutePath+"/PostJson.json").partidas
 
-
-
-        buttonBack.setOnClickListener {
-            val goToMain = Intent(applicationContext, MainActivity::class.java)
-            startActivity(goToMain)
-        }
         setAdapter()
     }
 
