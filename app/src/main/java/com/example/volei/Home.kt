@@ -3,7 +3,9 @@ package com.example.volei
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.TextView
@@ -19,15 +21,20 @@ import com.example.volei.databinding.ActivityHomeBinding
 import com.example.volei.model.Partida
 import com.example.volei.model.Partidas
 import com.example.volei.model.Pontuacao
+import org.w3c.dom.Text
 
 class Home : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityHomeBinding
 
+    private var running: Boolean? = false
+    private var paused: Boolean? = true
+
     private var play: Button? = null
     private var pause: Button? = null
     private var undo: Button? = null
+    private var restart: MenuItem? = null
 
     private var setsA: Int = 0
     private var setsB: Int = 0
@@ -43,6 +50,9 @@ class Home : AppCompatActivity() {
 
     private var json: JSONHandler? = null
     private val historicoPlacar = MutableList(1) { Pontuacao(placarA, placarB, setsA, setsB) }
+
+    private var meter: Chronometer? = null
+
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,21 +76,22 @@ class Home : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        //settings = findViewById(R.id.action_settings)
         play = findViewById(R.id.play)
         pause = findViewById(R.id.pause)
         undo = findViewById(R.id.undo)
+        restart = findViewById(R.id.action_settings)
         placarTextA = findViewById(R.id.teamApoints)
         placarTextB = findViewById(R.id.teamBpoints)
         setsTextA = findViewById(R.id.setTeamA)
         setsTextB = findViewById(R.id.setTeamB)
         setsGeral = findViewById(R.id.setCounter)
-        val t2timeA : TextView = findViewById(R.id.teamAname)
-        val t2timeB: TextView = findViewById(R.id.teamBname)
 
-        val meter = findViewById<Chronometer>(R.id.textView2)
+        meter = findViewById<Chronometer>(R.id.textView2)
 
         json = JSONHandler()
+
+        val t2timeA : TextView = findViewById(R.id.teamAname)
+        val t2timeB: TextView = findViewById(R.id.teamBname)
 
         setsGeral!!.text = " 1"
 
@@ -88,20 +99,19 @@ class Home : AppCompatActivity() {
         pause!!.isEnabled = false
         undo!!.isEnabled = false
 
-        //settings!!.setOnClickListener {
-        //    startActivity(Intent(applicationContext, Home::class.java))
-        //}
 
         play!!.setOnClickListener{
-            meter.start()
-            play!!.isEnabled = false
-            pause!!.isEnabled = true
+            if(!running!! && paused!!)
+                startMatch(t2timeA,t2timeB)
+            else
+                continueMatch()
+
+            undo!!.isEnabled = true
+            refreshScreen()
         }
 
         pause!!.setOnClickListener{
-            meter.stop()
-            pause!!.isEnabled = false
-            play!!.isEnabled = true
+            stopMatch()
         }
 
         undo!!.setOnClickListener {
@@ -120,34 +130,27 @@ class Home : AppCompatActivity() {
         }
 
         placarTextA!!.setOnClickListener {
-            placarA +=1
-            if(placarA < 10){
-                placarTextA!!.text = "0$placarA"
+            if(running!! && !paused!!){
+                placarA +=1
+                addPoint()
+                refreshScreen()
+                val result: Int = checkPlacar()
+                if(result != 0){
+                    endSet(result, t2timeA, t2timeB, placarA, placarB)
+                }
             }
-            else{
-                placarTextA!!.text = placarA.toString()
-            }
-
-            val result: Int = checkPlacar()
-            if(result != 0){
-                endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
-            }
-            addPoint()
         }
-        placarTextB!!.setOnClickListener {
-            placarB +=1
-            if(placarB < 10){
-                placarTextB!!.text = "0$placarB"
-            }
-            else{
-                placarTextB!!.text = placarB.toString()
-            }
 
-            val result: Int = checkPlacar()
-            if(result != 0){
-                endSet(result, t2timeA.text.toString(), t2timeB.text.toString(), placarA, placarB)
+        placarTextB!!.setOnClickListener {
+            if(running!! && !paused!!){
+                placarB +=1
+                addPoint()
+                refreshScreen()
+                val result: Int = checkPlacar()
+                if(result != 0){
+                    endSet(result, t2timeA, t2timeB, placarA, placarB)
+                }
             }
-            addPoint()
         }
         if(!json!!.fileExists(cacheDir.absolutePath+"/PostJson.json")){
             json!!.createJSONFile(cacheDir.absolutePath+"/PostJson.json")
@@ -166,7 +169,7 @@ class Home : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun endSet(result: Int, timeA: String, timeB: String, scoreA: Int, scoreB: Int){
+    private fun endSet(result: Int, timeA: TextView, timeB: TextView, scoreA: Int, scoreB: Int){
         if(result == 1){
             setsA += 1
             setsTextA!!.text = setsA.toString()
@@ -187,13 +190,65 @@ class Home : AppCompatActivity() {
 
         setsGeral!!.text = " " + (setsA + setsB + 1).toString()
     }
+    private fun startMatch(timeA: TextView, timeB: TextView){
+        meter!!.start()
+        play!!.isEnabled = false
+        pause!!.isEnabled = true
+        placarA = 0;
+        placarB = 0;
+        setsA = 0;
+        setsB = 0;
+        timeA.text = "TIME A"
+        timeB.text = "TIME B"
+        running = true
+        paused = false
+    }
 
-    private fun endMatch(timeA: String, timeB: String, scoreA: Int, scoreB: Int){
+    private fun continueMatch(){
+        play!!.isEnabled = false
+        pause!!.isEnabled = true
+        running = true
+        paused = false
+        meter!!.start()
+    }
+
+    private fun stopMatch(){
+        meter!!.stop()
+        play!!.isEnabled = true
+        pause!!.isEnabled = false
+        running = true
+        paused = true
+    }
+
+    private fun refreshScreen(){
+        if(placarA < 10){
+            placarTextA!!.text = "0$placarA"
+        }
+        else{
+            placarTextA!!.text = placarA.toString()
+        }
+
+        if(placarB < 10){
+            placarTextB!!.text = "0$placarB"
+        }
+        else{
+            placarTextB!!.text = placarB.toString()
+        }
+
+        setsGeral!!.text = " " + (setsA + setsB + 1).toString()
+
+    }
+
+    private fun endMatch(timeA: TextView, timeB: TextView, scoreA: Int, scoreB: Int){
         val partidas: Partidas = json!!.readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
-        val partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
+        val partida = Partida(partidas.partidas.size, timeA.text.toString(), timeB.text.toString(), scoreA, scoreB)
         partidas.partidas.add(partida)
         json!!.writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
-        startActivity(Intent(applicationContext, Home::class.java))
+        meter!!.setBase(SystemClock.elapsedRealtime())
+
+        startMatch(timeA,timeB)
+        refreshScreen()
+//        startActivity(Intent(applicationContext, Home::class.java))
     }
 
     private fun checkPlacar(): Int {
