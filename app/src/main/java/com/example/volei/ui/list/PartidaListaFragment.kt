@@ -40,6 +40,7 @@ class PartidaListaFragment : Fragment() {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+
         recyclerView = root.findViewById(R.id.List)
         val json = JSONHandler()
         matches = json.readJSONfromFile(root.context.cacheDir.absolutePath+"/PostJson.json").partidas
