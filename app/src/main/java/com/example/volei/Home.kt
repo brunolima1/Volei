@@ -190,7 +190,7 @@ class Home : AppCompatActivity() {
 
     private fun endMatch(timeA: String, timeB: String, scoreA: Int, scoreB: Int){
         val partidas: Partidas = json!!.readJSONfromFile(cacheDir.absolutePath+"/PostJson.json")
-        val partida = Partida(partidas.partidas.size, timeA, timeB, scoreA, scoreB)
+        val partida = Partida(partidas.partidas.size, timeA, timeB, setsA, setsB)
         partidas.partidas.add(partida)
         json!!.writeJSONtoFile(cacheDir.absolutePath+"/PostJson.json", partidas)
         startActivity(Intent(applicationContext, Home::class.java))
